@@ -220,106 +220,111 @@ class _MyHomePageState extends State<MyHomePage> {
               decoration: BoxDecoration(color: Color(0xff075AAD)),
               padding: EdgeInsets.all(0),
             ),
-            Positioned(
-              child: Container(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: ListTile(
-                        contentPadding: EdgeInsets.all(0),
-                        title: Text("Members (20)",
-                            style: TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.w600)),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 0),
-                      child: Transform(
-                        transform: Matrix4.translationValues(0, -10, 0),
-                        child: TextField(
-                          decoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0xff3e3e3e).withOpacity(0.1),
-                                ),
-                              ),
-                              prefixIconConstraints:
-                                  BoxConstraints(minHeight: 20, minWidth: 20),
-                              prefixIcon: SvgPicture.asset(
-                                "Images/Vector.svg",
-                              ),
-                              hintText: "    Search for a profile name",
-                              hintStyle: TextStyle(
-                                  color: Color(0xff3E3E3E).withOpacity(0.3),
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400)),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                        child: ListView.separated(
-                      separatorBuilder: (context, index) => Divider(
-                        thickness: 0.01,
-                      ),
-                      itemBuilder: (context, index) {
-                        return Card(
-                          margin: EdgeInsets.all(0),
+            DraggableScrollableSheet(
+                initialChildSize: 0.4,
+                minChildSize: 0.4,
+                maxChildSize: 0.85,
+                builder:
+                    (BuildContext context, ScrollController scrollController) {
+                  return Container(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20),
                           child: ListTile(
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 0, horizontal: 20),
-                            onTap: () {},
-                            title: Text(data[index]["name"]),
-                            leading: CircleAvatar(
-                              backgroundImage:
-                                  AssetImage(data[index]["avatar"]),
-                              radius: 22.5,
+                            contentPadding: EdgeInsets.all(0),
+                            title: Text("Members (20)",
+                                style: TextStyle(
+                                    fontSize: 15, fontWeight: FontWeight.w600)),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 0),
+                          child: Transform(
+                            transform: Matrix4.translationValues(0, -10, 0),
+                            child: TextField(
+                              decoration: InputDecoration(
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color(0xff3e3e3e).withOpacity(0.1),
+                                    ),
+                                  ),
+                                  prefixIconConstraints: BoxConstraints(
+                                      minHeight: 20, minWidth: 20),
+                                  prefixIcon: SvgPicture.asset(
+                                    "Images/Vector.svg",
+                                  ),
+                                  hintText: "    Search for a profile name",
+                                  hintStyle: TextStyle(
+                                      color: Color(0xff3E3E3E).withOpacity(0.3),
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400)),
                             ),
-                            subtitle: Text(data[index]["subtitle"]),
-                            trailing: data[index]["Badge"] != ''
-                                ? Container(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      data[index]["Badge"],
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w600,
-                                          color:
-                                              data[index]["Badge"] == "Incharge"
+                          ),
+                        ),
+                        Expanded(
+                            child: ListView.separated(
+                          controller: scrollController,
+                          separatorBuilder: (context, index) => Divider(
+                            thickness: 0.01,
+                          ),
+                          itemBuilder: (context, index) {
+                            return Card(
+                              margin: EdgeInsets.all(0),
+                              child: ListTile(
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 20),
+                                onTap: () {},
+                                title: Text(data[index]["name"]),
+                                leading: CircleAvatar(
+                                  backgroundImage:
+                                      AssetImage(data[index]["avatar"]),
+                                  radius: 22.5,
+                                ),
+                                subtitle: Text(data[index]["subtitle"]),
+                                trailing: data[index]["Badge"] != ''
+                                    ? Container(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          data[index]["Badge"],
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600,
+                                              color: data[index]["Badge"] ==
+                                                      "Incharge"
                                                   ? Color(0xff48a1ff)
                                                   : Color(0xff44b887)),
-                                    ),
-                                    constraints: BoxConstraints.expand(
-                                        width: 70.01, height: 18.98),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5)),
-                                        border: Border.all(
-                                            color: data[index]["Badge"] ==
-                                                    "Incharge"
-                                                ? Color(0xff48a1ff)
-                                                : Color(0xff44b887))),
-                                  )
-                                : null,
-                          ),
-                        );
-                      },
-                      itemCount: data.length,
-                    ))
-                  ],
-                  mainAxisAlignment: MainAxisAlignment.start,
-                ),
-                constraints: BoxConstraints.expand(
-                    height: (height * 332 / 720), width: width),
-                decoration: BoxDecoration(
-                    color: Color(0xfffdfdfd),
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30))),
-              ),
-              top: (height * 418 / 750),
-            ),
+                                        ),
+                                        constraints: BoxConstraints.expand(
+                                            width: 70.01, height: 18.98),
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(5)),
+                                            border: Border.all(
+                                                color: data[index]["Badge"] ==
+                                                        "Incharge"
+                                                    ? Color(0xff48a1ff)
+                                                    : Color(0xff44b887))),
+                                      )
+                                    : null,
+                              ),
+                            );
+                          },
+                          itemCount: data.length,
+                        ))
+                      ],
+                      mainAxisAlignment: MainAxisAlignment.start,
+                    ),
+                    constraints: BoxConstraints.expand(
+                        height: (height * 9 / 10), width: width),
+                    decoration: BoxDecoration(
+                        color: Color(0xfffdfdfd),
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(30),
+                            topRight: Radius.circular(30))),
+                  );
+                }),
             Positioned(
               top: 613 * height / 750,
               child: Container(
